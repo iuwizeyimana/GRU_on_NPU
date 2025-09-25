@@ -493,7 +493,6 @@ int main(int argc, const char *argv[]){
         auto start = std::chrono::high_resolution_clock::now();
         unsigned int opcode = 3;
         auto run = kernel(opcode, bo_instr, instr_v.size(), bo_inputs, bo_wr, bo_wn, bo_wz, bo_out);
-        //auto run = kernel(opcode, bo_instr, instr_v.size(), bo_inputs, bo_wr, bo_wn, bo_out);
         run.wait();
         auto stop = std::chrono::high_resolution_clock::now();
         bo_out.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
@@ -510,7 +509,7 @@ int main(int argc, const char *argv[]){
         // Fill OutVec with the flattened output
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
-                size_t flat_index = i * M + j;  // Row-major layout
+                size_t flat_index = i * N + j;  // Row-major layout
                 OutVec[i][j] = typedBuf[flat_index];
             }
         }
